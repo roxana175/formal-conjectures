@@ -84,11 +84,6 @@ Note: one implication follows from the lemma above, the other one is an open con
 @[category research open, question, AMS 20]
 theorem kourovka_20_12 :
     ∀ (G : Type) [Group G], ∀ n ≥ 2, (UniqueNFoldProd G n ↔ UniqueNFoldProd G 2) := by
-  intro G hG n hn
-  constructor
-  · apply unp_implies_ump
-    · simp
-    · assumption
-  · sorry
+  sorry
 
 end Kourovka.«20.12»
