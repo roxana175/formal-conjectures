@@ -37,16 +37,13 @@ namespace Kourovka.«20.12»
 
 
 /--
-Let us say that a group $G$ has the unique $n$-fold product property (u.-n-p.) if for every
+A group $G$ has the unique $n$-fold product property (u.-n-p.) if for every
 $n$-tuple of finite nonempty subsets $A_1, ..., A_n ⊆ G$ there exists $g ∈ G$ which can be
-written in one and only one wag as $g = a_1 ... a_n$ with $a_i ∈ A_i$.
+written in precisely one way as $g = a_1 ... a_n$ with $a_i ∈ A_i$.
 -/
-def unique_n_fold_product (G : Type*) [Group G] (n : ℕ) :  Prop :=
-∀ (A : Fin n → Finset G),
-  ((∀ i, (A i).Nonempty) →
-      ∃ g : G,
-        ∃! (a : (i : Fin n) → A i),
-          g = Fin.prod (fun i => (a i : G)))
+def UniqueNFoldProd (G : Type*) [Group G] (n : ℕ) :  Prop :=
+  ∀ (A : Fin n → Finset G), ((∀ i, (A i).Nonempty) → ∃ g : G,
+    ∃! (a : (i : Fin n) → G), (∀ i, a i ∈ A i) ∧ g = Fin.prod a)
 
 /--
 It is easy to see, that u.-n-p. implies u.-m-p. for $n ≥ m$ (since some of the $A_i$
