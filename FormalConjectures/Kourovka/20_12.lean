@@ -58,12 +58,9 @@ $g = a_1, ..., a_n$ with $a_i ∈ A_i$. Since $A_i = \{1\}$ for $i > m$ this imp
 $g = a_1, ..., a_m$, i.e. G is u.-m-p.
 -/
 
-@[category API]
-lemma unp_implies_ump :
-  ∀ (G : Type*) [Group G],
-    ∀ m ≥ 2,
-      ∀ n ≥ m,
-        (unique_n_fold_product G n →  unique_n_fold_product G m)   := by
+@[category API, AMS 20]
+lemma UniqueNFoldProd.mono (G : Type* ) [Group G] {n m : ℕ} (mn : m ≤ n) (h : UniqueNFoldProd G n):
+    UniqueNFoldProd G m := by
   induction n, mn using Nat.le_induction with
   | base => exact h
   | succ k _ ih =>
@@ -86,9 +83,7 @@ Note: one implication follows from the lemma above, the other one is an open con
 
 @[category research open, question, AMS 20]
 theorem kourovka_20_12 :
-∀ (G : Type*) [Group G],
-  ∀ n ≥ 2,
-    (unique_n_fold_product G n ↔ unique_n_fold_product G 2)   := by
+    ∀ (G : Type) [Group G], ∀ n ≥ 2, (UniqueNFoldProd G n ↔ UniqueNFoldProd G 2) := by
   intro G hG n hn
   constructor
   · apply unp_implies_ump
