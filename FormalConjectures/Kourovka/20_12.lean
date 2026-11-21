@@ -48,14 +48,6 @@ def UniqueNFoldProd (G : Type*) [Group G] (n : ℕ) :  Prop :=
 /--
 It is easy to see, that u.-n-p. implies u.-m-p. for $n ≥ m$ (since some of the $A_i$
 can be $\{1\}$).
-
-Note: We started formalizing the proof, but didn't finish it, as after some hours (and ~30 lines)
-we thought this is too much for project 1 and didn't continue.
-The proof sketch goes as follows:
-Let $n ≥ m$ and $G$ be u.-n-p. Now take $A_1, ... A_m ⊆ G$ to show u.-m-p.
-Define $A_{m+1}, ..., A_n := \{1\}$ and apply u.-n-p. to get $g ∈ G$ with
-$g = a_1, ..., a_n$ with $a_i ∈ A_i$. Since $A_i = \{1\}$ for $i > m$ this implies
-$g = a_1, ..., a_m$, i.e. G is u.-m-p.
 -/
 
 @[category API, AMS 20]
@@ -75,6 +67,8 @@ lemma UniqueNFoldProd.mono (G : Type* ) [Group G] {n m : ℕ} (mn : m ≤ n) (h 
       simpa using congrFun this i.succ
 
 /--
+Kourovka conjecture 20.12:
+
 Are the conditions u.-n-p. ($n ≥ 2$) all equivalent to u.-2-p., the usual unique
 product condition?
 
