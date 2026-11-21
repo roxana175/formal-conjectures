@@ -67,7 +67,18 @@ lemma unp_implies_ump :
     ∀ m ≥ 2,
       ∀ n ≥ m,
         (unique_n_fold_product G n →  unique_n_fold_product G m)   := by
-  sorry
+  induction n, mn using Nat.le_induction with
+  | base => exact h
+  | succ k _ ih =>
+    refine ih fun A hA ↦ ?_
+    obtain ⟨g, b, ⟨hb, hg⟩, huniq⟩ := h (Fin.cons {1} A) (Fin.cases (by simp) (by simpa))
+    have hb0 : b 0 = 1 := by simpa using hb 0
+    refine ⟨g, fun i ↦ b i.succ, ⟨fun i ↦ by simpa using hb i.succ, ?_⟩, ?_⟩
+    · rw [hg, Fin.prod_succ, hb0, one_mul]
+    · rintro a ⟨ha, rfl⟩
+      have := huniq (Fin.cons 1 a) ⟨Fin.cases (by simp) (by simpa), by rw [Fin.prod_succ]; simp⟩
+      ext i
+      simpa using congrFun this i.succ
 
 /--
 Are the conditions u.-n-p. ($n ≥ 2$) all equivalent to u.-2-p., the usual unique
