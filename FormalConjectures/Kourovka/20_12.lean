@@ -46,6 +46,52 @@ def UniqueNFoldProd (G : Type*) [Group G] (n : ℕ) :  Prop :=
     ∃! (a : (i : Fin n) → G), (∀ i, a i ∈ A i) ∧ g = Fin.prod a)
 
 /--
+Every group $G$ has the unique $0$-fold product property.
+-/
+@[category API, AMS 20]
+lemma Unique0FoldProd (G : Type* ) [Group G] : UniqueNFoldProd G 0 := by
+  intro A h
+  use 1
+  apply existsUnique_of_exists_of_unique
+  · let x : Fin 0 → G := fun _ => 1
+    use x
+    constructor
+    · rw [Fin.forall_fin_zero]
+      simp
+    · rw [Fin.prod_zero]
+  · intro x y ⟨hx_in_A, hx_a⟩ ⟨hy_in_A, hy_a⟩
+    apply funext
+    rw [Fin.forall_fin_zero]
+    simp
+
+/--
+Every group $G$ has the unique $1$-fold product property.
+-/
+@[category API, AMS 20]
+lemma Unique1FoldProd (G : Type* ) [Group G] : UniqueNFoldProd G 1 := by
+  intro A h
+  obtain ⟨a, ha⟩ := h 0
+  use a
+  apply existsUnique_of_exists_of_unique
+  · let x : Fin 1 → G := fun _ => a
+    use x
+    constructor
+    · intro i
+      rw [show x i = a from rfl]
+      have hi : i = 0 := by omega
+      rw[hi]
+      assumption
+    · rw [Fin.prod_succ, Function.const_def, show Function.const (Fin 0) a = fun x ↦ a from rfl,
+        Fin.prod_zero, show x 0 = a from rfl]
+      simp
+  · intro x y ⟨hx_in_A, hx_a⟩ ⟨hy_in_A, hy_a⟩
+    rw [Fin.prod_succ, Fin.prod_zero, mul_one] at hx_a hy_a
+    apply funext
+    intro i
+    have hi : i = 0 := by omega
+    rw[hi, ←  hx_a,  ←  hy_a]
+
+/--
 It is easy to see, that u.-n-p. implies u.-m-p. for $n ≥ m$ (since some of the $A_i$
 can be $\{1\}$).
 -/
